@@ -10,7 +10,7 @@ export class AiError extends Error {
 }
 
 export async function runAi(system: string, messages: ModelMessage[]): Promise<string> {
-  const apiKey = process.env.LOVABLE_API_KEY;
+  const apiKey = process.env['LOVABLE_API_KEY'];
   if (!apiKey) throw new AiError("AI is not configured for this app yet.", 401);
 
   let runId: string | undefined;
