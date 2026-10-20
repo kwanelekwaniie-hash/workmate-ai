@@ -2,8 +2,8 @@ import { createServerFn } from "@tanstack/react-start";
 
 type Msg = { role: "user" | "assistant"; content: string };
 type Input =
-  | { kind: "email"; prompt: string; tone: "Formal" | "Friendly"; recipient?: string }
-  | { kind: "research"; source: string; focus?: string }
+  | { kind: "email"; prompt: string; tone: "Formal" | "Friendly"; recipient?: string | undefined }
+  | { kind: "research"; source: string; focus?: string | undefined }
   | { kind: "chat"; messages: Msg[] };
 
 const SYSTEMS = {
@@ -19,7 +19,7 @@ const SYSTEMS = {
 };
 
 export const generateAi = createServerFn({ method: "POST" })
-  .inputValidator((d: Input) => {
+  .validator((d: Input) => {
     const s = (v: unknown, max: number) => typeof v === "string" && v.trim().length > 0 && v.length <= max;
     if (d.kind === "email" && s(d.prompt, 4000)) return d;
     if (d.kind === "research" && s(d.source, 30000)) return d;
